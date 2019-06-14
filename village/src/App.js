@@ -36,6 +36,7 @@ class App extends Component {
     return (
       <div className="App">
 <<<<<<< HEAD
+<<<<<<< HEAD
         <nav>
           <NavLink to='/'>SmurfList</NavLink>
           <br/>
@@ -46,6 +47,8 @@ class App extends Component {
         <Route exact path="/" render={props => <Smurfs {...props} smurfs={this.state.smurfs} updateSmurfs={this.updateSmurfs} />} />
         <Route path="/smurfs/:id" render={props => <Smurf {...props} smurfs={this.state.smurfs} />} />
 =======
+=======
+>>>>>>> parent of 674e71b... Lost Cause
         
         
         <SmurfForm handleSetData={this.handleSetData} />
@@ -59,6 +62,9 @@ class App extends Component {
             />
           )}
         />
+<<<<<<< HEAD
+>>>>>>> parent of 674e71b... Lost Cause
+=======
 >>>>>>> parent of 674e71b... Lost Cause
       </div>
     );
