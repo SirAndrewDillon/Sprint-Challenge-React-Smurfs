@@ -1,14 +1,17 @@
 body {
-  margin: 0 auto;
+  margin: 0;
   padding: 0;
   font-family: sans-serif;
+<<<<<<< HEAD
   padding-top: 70px;
 }
 
 NavLink {
   padding: 20px;
   margin-bottom: 40px;
+=======
+  margin-top: 100px;
+>>>>>>> parent of 674e71b... Lost Cause
 }
-
 
 
