@@ -1,13 +1,16 @@
 import React, { Component } from "react";
 
+
+import styled from "styled-components";
+import axios from "axios";
+import { Route } from "react-router-dom";
+
+//Components
 import SmurfForm from "./components/SmurfForm";
 import Smurfs from "./components/Smurfs";
 import Header from "./components/Header";
 import Navigation from "./components/Navigation";
 import SmurfLink from "./components/SmurfLink";
-import styled from "styled-components";
-import axios from "axios";
-import { Route } from "react-router-dom";
 
 const MainContainer = styled.div`
   max-width: 800px;

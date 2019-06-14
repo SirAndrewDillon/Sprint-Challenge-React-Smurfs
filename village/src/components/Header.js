@@ -8,11 +8,15 @@ const HomeTitle = styled.header`
   font-weight: bold;
 `;
 
+
+
 const Header = () => {
   return (
     <div>
-      <HomeTitle>Salutations from Smurfville!</HomeTitle>
+      <HomeTitle>Greetings from the Smurf Village!</HomeTitle>
     </div>
+    
+    
   );
 };
 
