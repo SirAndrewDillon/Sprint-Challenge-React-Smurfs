@@ -40,6 +40,8 @@ class App extends Component {
       <div className="App">
         <nav>
           <NavLink to='/'>SmurfList</NavLink>
+          <br/>
+          <br/>
           <NavLink to='/smurf-form'>SmurfList</NavLink>
         </nav>
         <Route path="/smurf-form" render={props => <SmurfForm {...props} updateSmurfs={this.updateSmurfs} />} />
