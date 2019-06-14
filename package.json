@@ -4,14 +4,28 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "node server.js"
+    "start": "node server.js",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
-  "author": "",
+  "author": "Andrew Dillon",
   "license": "ISC",
+  "homepage": "http://SirAndrewDillon.Sprint-Challenge-React-Smurfs/tree/Sprint-Smurfs/react-gh-pages",
   "dependencies": {
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
+    "eslint-config-prettier": "^2.9.0",
+    "eslint-plugin-import": "^2.13.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.10.0",
     "express": "^4.16.2",
-    "nodemon": "^1.14.11"
+    "nodemon": "^1.14.11",
+    "react-favicon": "0.0.16",
+    "styled-components": "^4.3.1"
+  },
+  "devDependencies": {
+    "gh-pages": "^2.0.1",
+    "lint": "^0.7.0",
+    "prettier": "^1.18.2"
   }
 }
