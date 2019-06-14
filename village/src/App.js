@@ -1,77 +1,83 @@
-import React, { Component } from 'react';
-import axios from 'axios';
-import { Route, NavLink } from 'react-router-dom';
+import React, { Component } from "react";
 
-import './App.css';
-//Components
-import SmurfForm from './components/SmurfForm';
-import Smurfs from './components/Smurfs';
+import SmurfForm from "./components/SmurfForm";
+import Smurfs from "./components/Smurfs";
+import Header from "./components/Header";
+import Navigation from "./components/Navigation";
+import SmurfLink from "./components/SmurfLink";
+import styled from "styled-components";
+import axios from "axios";
+import { Route } from "react-router-dom";
+
+const MainContainer = styled.div`
+  max-width: 800px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 1%;
+  border: solid black 1px;
+  background-image: linear-gradient(
+      to right,
+      rgba(255, 0, 0, 0),
+      #41B6E9
+    );
+  }
+  margin-top: 20px;
+  margin-bottom: 40px;
+`;
 
 class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      smurfs: [],
+      smurfs: []
     };
   }
   // add any needed code to ensure that the smurfs collection exists on state and it has data coming from the server
   // Notice what your map function is looping over and returning inside of Smurfs.
   // You'll need to make sure you have the right properties on state and pass them down to props.
 
-componentDidMount() {
-    this.getSmurfs('http://localhost:3333');
-}
+  componentDidMount = () => {
+    axios
+      .get("http://localhost:3333/smurfs")
+      .then(response => {
+        this.setState({ smurfs: [...response.data] });
+      })
+      .catch(err => console.log(err));
+  };
+  handleCreateOrUpdate = () => {
+    axios
+      .post("http://localhost:3333/smurfs")
+      .then(response => {
+        this.setState({ smurfs: response.data });
+      })
+      .catch(err => console.log(err));
+  };
+  handleDelete = (event, beingDeleted) => {
+    event.preventDefault();
+    axios
+      .delete(`http://localhost:3333/smurfs/${beingDeleted.id}`, beingDeleted)
+      .then(response => {
+        this.setState({
+          smurfs: [...response.data]
+        });
+      })
+      .catch(err => console.log(err));
+  };
 
-getSmurfs = url => {
-  axios.get(`${url}/smurfs`)
-    .then(res => this.setState({ smurfs: res.data }))
-    .catch(err => console.log(err));
-}
-
-deleteSmurf = (e, id) => {
-  e.preventDefault();
-  axios.delete(`http://localhost:3333/smurfs/${id}`)
-    .then(res => this.setState({ smurfs: res.data }))
-    .catch(err => console.log(err));
-}
-
-render() {
-  const { smurfs } = this.state;
-return (
-  <div className="App">
-    <nav>
-      <ul>
-        <li>
-          <NavLink exact to="/" activeStyle={{ fontWeight: "bold" }}>
-            Smurfs
-          </NavLink>
-        </li>
-        <li>
-          <NavLink to="/smurf-form" activeStyle={{ fontWeight: "bold" }}>
-            Add New Smurf
-          </NavLink>
-        </li>
-      </ul>
-    </nav>
-
-    <Route
-      exact
-      path="/"
-      render={ownProps => (
-        <Smurfs
-          {...ownProps}
-          smurfs={smurfs}
-          deleteSmurf={this.deleteSmurf}
+  render() {
+    return (
+      <MainContainer>
+        <Navigation />
+        <Route exact path="/" component={Header} />
+        <Route exact path="/smurfs" component={SmurfForm} />
+        <Route
+          exact
+          path="/smurfs"
+          render={props => <Smurfs {...props} smurfs={this.state.smurfs} />}
         />
-      )}
-    />
-    <Route
-      path="/smurf-form"
-      render={ownProps => <SmurfForm {...ownProps} smurfs={smurfs} />}
-    />
-  </div>
-);
-}
+      </MainContainer>
+    );
+  }
 }
 
 export default App;
