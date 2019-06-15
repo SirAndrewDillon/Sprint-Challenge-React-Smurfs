@@ -1,20 +1,57 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
+import styled from "styled-components";
+import Smurf from "./Smurf";
+import PropTypes from "prop-types";
 
 
+// ==== STYLED COMPONENTS ====
 
-const Smurf = props => {
-  const handleClick = () => {
-    props.handleButton(props.id);
-  };
 
-  return (
-    <div>
-      <h3>{props.name}</h3>
-      <strong>{props.height}</strong>
-      <p>{props.age}</p>
-      <span onClick={handleClick} className="smurf-button" />
-    </div>
-  );
+const StyledH1 = styled.h1`
+  color: blue;
+  margin-top: -20px;
+  padding: 20px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  font-weight: bolder;
+  margin-bottom: 30px;
+  border-bottom: 1px solid blue;
+  background: white;
+`;
+
+// ====     COMPONENT     ====
+
+class Smurfs extends Component {
+  render() {
+    return (
+      <div className="Smurfs">
+        <StyledH1>Smurf Village</StyledH1>
+        <ul>
+          {this.props.smurfs.map(smurf => {
+            return (
+              <Smurf
+                name={smurf.name}
+                id={smurf.id}
+                age={smurf.age}
+                height={smurf.height}
+                key={smurf.id}
+                deleteSmurf={this.props.deleteSmurf}
+              />
+            );
+          })}
+        </ul>
+      </div>
+    );
+  }
+}
+
+Smurf.defaultProps = {
+  smurfs: []
 };
 
-export default Smurf;
+Smurfs.propTypes = {
+  deleteSmurf: PropTypes.func.isRequired,
+  smurfs: PropTypes.array.isRequired
+};
+
+export default Smurfs;

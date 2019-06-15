@@ -1,146 +1,100 @@
-import React from "react";
-import axios from "axios";
+import React, { Component } from "react";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
+import { PropTypes } from "prop-types";
 
-const Smurf = styled.div`
-  border: solid black 1px;
-  padding: 2%;
-  font-size: 1.4rem;
-  width: 140px;
-  background-color: #e1e1f4;
+
+// ==== STYLED COMPONENTS ====
+
+
+const StyledH3 = styled.h3`
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  color: blue;
+  border-bottom: 1px dashed blue;
+  width: 100%;
+  padding: 20px 0;
 `;
 
-const EditSmurf = styled.form`
-  display: flex;
-  flex-direction: column;
-  margin: 10px 0;
-  font-size: 1.2rem;
-`;
-
-const EditBTN = styled.button`
-  background-color: black;
-  margin-bottom: 5px;
-  &:hover {
-    color: white;
-    background-color: white;
-    cursor: pointer;
+const Span = styled.span`
+  position: absolute;
+  top: 20px;
+  right: 25px;
+  color: red;
+  font-weight: bolder;
+  cursor: pointer;
+  &:hover,
+  &:active {
+    transform: scale(1.5);
   }
 `;
 
-const DeleteBTN = styled.button`
-  background-color: black;
-  margin-bottom: 5px;
+const SmurfDiv = styled.div`
+  overflow: hidden;
+  position: relative;
+  border: 1px solid blue;
+  width: 50%;
+  margin: 0 auto 30px;
+  padding-bottom: 20px;
+  background: aqua;
+  box-shadow: -2px 2px 8px rgb(0, 0, 0, 0.3);
+`;
+
+const Update = styled(Link)`
+  color: white;
+  text-decoration: none;
+  cursor: pointer;
+  padding: 10px 20px;
+  background: blue;
+  box-shadow: 0 4px lightblue;
+  border: 2px solid lightblue;
+  position: relative;
   &:hover {
-    color: white;
-    cursor: pointer;
+    top: 2px;
+    box-shadow: 0 2px lightblue;
+  }
+  &:active {
+    top: 4px;
+    box-shadow: 0 0 lightblue;
   }
 `;
 
-class Smurf extends React.Component {
+
+// ====     COMPONENT     ====
+
+class Smurf extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      formToggle: false,
-      editName: "",
-      editAge: "",
-      editHeight: "",
-      Smurf: {}
+      smurf: null
     };
   }
 
-  toggleForm = () => {
-    console.log("this is working");
-    this.setState({
-      formToggle: !this.state.formToggle
-    });
-  };
-
-  deleteSmurf = () => {
-    axios
-      .delete(`http://localhost:3333/smurfs/${this.props.id}`)
-      .then(response => {
-        console.log(response);
-        this.props.handleData(response.data);
-      })
-      .catch(err => console.log(err));
-  };
-
-  handleSmurf = event => {
-    this.setState({
-      [event.target.name]: event.target.value
-    });
-  };
-
-  editSmurf = () => {
-    const editedSmurf = {
-      name: this.state.editName,
-      age: this.state.editAge,
-      height: this.state.editHeight
-    };
-    axios
-      .put(`http://localhost:3333/smurfs/${this.props.id}`, editedSmurf)
-      .then(response => {
-        console.log(response);
-        this.props.handleData(response.data);
-        this.setState({
-          editName: "",
-          editAge: "",
-          editHeight: "",
-          Smurf: {}
-        });
-      })
-      .catch(err => console.log(err));
-  };
-
   render() {
     return (
-      <Smurf>
-        <h3>{this.props.name}</h3>
+      <SmurfDiv className="Smurf">
+        <StyledH3>{this.props.name}</StyledH3>
+        <Span onClick={() => this.props.deleteSmurf(this.props.id)}>X</Span>
         <strong>{this.props.height} tall</strong>
         <p>{this.props.age} smurf years old</p>
-
-        {this.state.formToggle ? (
-          <div>
-            <EditSmurf>
-              Name:
-              <input
-                type="text"
-                placehoder="Smurf name"
-                onChange={this.handleSmurf}
-                name="editName"
-                value={this.state.editName}
-              />
-              <br />
-              Height:
-              <input
-                type="text"
-                placehoder="friend email"
-                onChange={this.handleSmurf}
-                name="editHeight"
-                value={this.state.editHeight}
-              />
-              <br />
-              Age:
-              <input
-                type="text"
-                placehoder="friend age"
-                onChange={this.handleSmurf}
-                name="editAge"
-                value={this.state.editAge}
-              />
-            </EditSmurf>
-            <div>
-              <EditBTN onClick={this.editSmurf}>Submit Edit</EditBTN>
-              <DeleteBTN onClick={this.deleteSmurf}>Delete Smurf</DeleteBTN>
-            </div>
-          </div>
-        ) : null}
-        <button onClick={this.toggleForm}>Toggle Form</button>
-      </Smurf>
+        <Update to={`/smurfs/${this.props.id}`}>Edit Smurf Data</Update>
+      </SmurfDiv>
     );
   }
 }
 
+Smurf.defaultProps = {
+  name: "",
+  height: "",
+  age: ""
+};
+
+Smurf.propTypes = {
+  name: PropTypes.string.isRequired,
+  id: PropTypes.number.isRequired,
+  age: PropTypes.string.isRequired,
+  height: PropTypes.string.isRequired,
+  deleteSmurf: PropTypes.func.isRequired
+};
 
 export default Smurf;
-
